@@ -33,7 +33,6 @@ class Dashboard extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    // colors: [Color.fromARGB(255, 9, 58, 71), Color.fromARGB(255, 9, 58, 71),],
                     colors: [
                       Colors.green,
                       Colors.green,
