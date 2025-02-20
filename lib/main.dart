@@ -20,9 +20,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        home: Dashboard());
+    return GetMaterialApp(debugShowCheckedModeBanner: false, home: Dashboard());
   }
 }
