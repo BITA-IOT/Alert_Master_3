@@ -86,7 +86,7 @@ class _DevicesPageState extends State<DevicesPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Dashboard()));
-                          _mqttcontroller.updatetopicSSIDvalue(device.deviceId);
+                          _mqttcontroller.updatetopicSSIDvalue("AM3-AAA001");
                         },
                         onLongPress: () {
                           showDialog(

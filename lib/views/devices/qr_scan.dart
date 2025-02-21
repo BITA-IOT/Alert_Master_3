@@ -255,7 +255,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
                     await SharedPreferencesService().sendDeviceData(
                       data: DeviceModel(
-                        deviceId: deviceid,
+                        deviceId: "AM3-AAA001",
                         deviceIp: ip,
                         deviceMac: mac,
                         deviceName: ssidd,

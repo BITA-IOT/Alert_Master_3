@@ -249,6 +249,12 @@ class MqttController extends GetxController {
     publishMessage(jsonString);
   }
 
+  void updateContainerValues(String high, String low) {
+    psig1sethigh.value = int.parse(low);
+    psig1setlow.value = int.parse(high);
+    _buildJsonPayload(); // Call _publishJsonMessage to publish the updated container values
+  }
+
   void updateChilledWaterInTemp(String temp) {
     temp1.value = int.parse(temp);
     _buildJsonPayload();
@@ -256,6 +262,18 @@ class MqttController extends GetxController {
 
   void updateChilledWateroutTemp(String temp) {
     temp2.value = int.parse(temp);
+    _buildJsonPayload();
+  }
+
+  void updateSuction(String low, String high) {
+    temp3setlow.value = int.parse(low);
+    temp3sethigh.value = int.parse(high);
+    _buildJsonPayload(); // JSON payload update karne ke liye
+  }
+
+  void updateDischargeTemp(String high, String low) {
+    temp4setlow.value = int.parse(low);
+    temp4sethigh.value = int.parse(high);
     _buildJsonPayload();
   }
 

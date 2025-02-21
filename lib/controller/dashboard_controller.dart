@@ -96,10 +96,4 @@ class DashboardController extends GetxController {
     model.suctionLowTemp.value = lowTemp;
     updateDashboard(); // Publish all data including the suction temps
   }
-
-  void updateDischargeTemp(String temp, String high, String low) {
-    print("Updating discharge temps: Temp=$temp, High=$high, Low=$low");
-    model.updateDischargeTemp(temp, high, low);
-    updateDashboard(); // Publish all data including the discharge temps
-  }
 }
