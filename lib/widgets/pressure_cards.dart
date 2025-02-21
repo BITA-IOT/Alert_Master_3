@@ -20,7 +20,6 @@ class OilTemperatureCard extends StatelessWidget {
       width: 150,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             Icons.thermostat_outlined,
@@ -33,7 +32,10 @@ class OilTemperatureCard extends StatelessWidget {
               const Text(
                 'O.P.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -45,7 +47,7 @@ class OilTemperatureCard extends StatelessWidget {
                         color: controller.isOilTemperatureOn.value
                             ? Colors.green
                             : Colors.red,
-                        fontSize: 18,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     );

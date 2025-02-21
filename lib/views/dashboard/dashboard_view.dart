@@ -2,8 +2,10 @@ import 'package:app/controller/amphere_controller.dart';
 import 'package:app/controller/dashboard_controller.dart';
 import 'package:app/controller/mqtt_controller.dart';
 import 'package:app/controller/pressure_controller.dart';
+import 'package:app/views/dashboard/custom_widget/info_card2.dart';
+import 'package:app/views/dashboard/custom_widget/info_card3.dart';
 import 'package:app/widgets/amphere_cards.dart';
-import 'package:app/widgets/info_card.dart';
+import 'package:app/views/dashboard/custom_widget/info_card.dart';
 import 'package:app/widgets/pressure_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,8 +36,9 @@ class Dashboard extends StatelessWidget {
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
+                      Colors.yellow,
                       Colors.green,
-                      Colors.green,
+                      Colors.yellow,
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -172,7 +175,7 @@ class Dashboard extends StatelessWidget {
                           Obx(() => InfoCard(
                                 icon: Icons.thermostat,
                                 color: Colors.redAccent,
-                                title: "DISCHARGE ",
+                                title: "DISCHARGE",
                                 subtitle:
                                     ' ${controller.model.dischargeTemp.value}°C',
                                 onTap: () {
@@ -450,70 +453,70 @@ void showUpdateDialog({
   );
 }
 
-void _showDialog(
-    BuildContext context, String title, PressureController controller) {
-  final highValue = controller.containerValues[title]?['High'] ?? '';
-  final lowValue = controller.containerValues[title]?['Low'] ?? '';
-  final setValue = controller.containerValues[title]?['Set'] ?? '';
+// void _showDialog(
+//     BuildContext context, String title, PressureController controller) {
+//   final highValue = controller.containerValues[title]?['High'] ?? '';
+//   final lowValue = controller.containerValues[title]?['Low'] ?? '';
+//   final setValue = controller.containerValues[title]?['Set'] ?? '';
 
-  final highController = TextEditingController(text: highValue);
-  final lowController = TextEditingController(text: lowValue);
-  final setController = TextEditingController(text: setValue);
+//   final highController = TextEditingController(text: highValue);
+//   final lowController = TextEditingController(text: lowValue);
+//   final setController = TextEditingController(text: setValue);
 
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text('Update $title Pressure'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: setController,
-              decoration: const InputDecoration(
-                labelText: 'Set Pressure',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: highController,
-              decoration: const InputDecoration(
-                labelText: 'High Pressure',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: lowController,
-              decoration: const InputDecoration(
-                labelText: 'Low Pressure',
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              controller.updateContainerValues(
-                title,
-                setController.text,
-                highController.text,
-                lowController.text,
-              );
-              Navigator.pop(context);
-            },
-            child: const Text('Update'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Cancel'),
-          ),
-        ],
-      );
-    },
-  );
-}
+//   showDialog(
+//     context: context,
+//     builder: (context) {
+//       return AlertDialog(
+//         title: Text('Update $title Pressure'),
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             TextField(
+//               controller: setController,
+//               decoration: const InputDecoration(
+//                 labelText: 'Set Pressure',
+//                 border: OutlineInputBorder(),
+//               ),
+//             ),
+//             const SizedBox(height: 10),
+//             TextField(
+//               controller: highController,
+//               decoration: const InputDecoration(
+//                 labelText: 'High Pressure',
+//                 border: OutlineInputBorder(),
+//               ),
+//             ),
+//             const SizedBox(height: 10),
+//             TextField(
+//               controller: lowController,
+//               decoration: const InputDecoration(
+//                 labelText: 'Low Pressure',
+//                 border: OutlineInputBorder(),
+//               ),
+//             ),
+//           ],
+//         ),
+//         actions: [
+//           TextButton(
+//             onPressed: () {
+//               controller.updateContainerValues(
+//                 title,
+//                 setController.text,
+//                 highController.text,
+//                 lowController.text,
+//               );
+//               Navigator.pop(context);
+//             },
+//             child: const Text('Update'),
+//           ),
+//           TextButton(
+//             onPressed: () {
+//               Navigator.pop(context);
+//             },
+//             child: const Text('Cancel'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }

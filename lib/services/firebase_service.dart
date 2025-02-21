@@ -3,13 +3,12 @@ import 'dart:developer';
 
 import 'package:app/model/user_device_model.dart';
 import 'package:app/utilz/App_dialog.dart';
-import 'package:app/views/home/bottum_navbar.dart';
+import 'package:app/views/home/bottom_navbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -122,7 +121,6 @@ class FirebaseService {
       );
     }
   }
-
 }
 
 class SharedPreferencesService {

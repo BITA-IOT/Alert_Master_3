@@ -4,7 +4,7 @@ import 'package:app/utilz/theme/theme.dart';
 import 'package:app/model/user_device_model.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/sharedpreference_service.dart';
-import 'package:app/views/home/bottum_navbar.dart';
+import 'package:app/views/home/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';

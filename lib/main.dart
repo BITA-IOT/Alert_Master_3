@@ -1,11 +1,9 @@
 import 'package:app/firebase_options.dart';
-import 'package:app/views/home/bottum_navbar.dart';
-import 'package:app/views/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-import 'views/home/dashboard_view.dart';
+import 'views/dashboard/dashboard_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

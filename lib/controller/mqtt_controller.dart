@@ -136,7 +136,6 @@ class MqttController extends GetxController {
     try {
       Map<String, dynamic> jsonMap = jsonDecode(message);
 
-      // Values ko integer me convert karna (agar null ho to default 0)
       amp1.value = int.parse(jsonMap['AMP1'] ?? '0');
       amp2.value = int.parse(jsonMap['AMP2'] ?? '0');
       amp3.value = int.parse(jsonMap['AMP3'] ?? '0');
@@ -169,7 +168,6 @@ class MqttController extends GetxController {
       amp3low.value = int.parse(jsonMap['AMP3_LOW'] ?? '0');
       comp1status.value = int.parse(jsonMap['comp1_sta'] ?? '0');
 
-      // Log me print karna
       log("Received MQTT Data:");
       log("amp1 = $amp1");
       log("amp2 = $amp2");
@@ -202,8 +200,6 @@ class MqttController extends GetxController {
       log("amp2low = $amp2low");
       log("amp3low = $amp3low");
       log("comp1status = $comp1status");
-
-      // Hardware ko data send karna
     } catch (e) {
       log("Error parsing JSON: $e");
     }
@@ -277,9 +273,9 @@ class MqttController extends GetxController {
           builder.payload!,
           retain: true,
         );
-        print('Message published to $topic: $message');
+        log('Message published to $topic: $message');
       } catch (e) {
-        print('Failed to publish message: $e');
+        log('Failed to publish message: $e');
       }
     }
   }

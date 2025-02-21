@@ -1,9 +1,8 @@
-
 import 'dart:ui';
+import 'package:app/views/home/bottom_navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:app/views/auth/sign_up.dart';
-import 'package:app/views/home/bottum_navbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,7 +31,7 @@ class _NextScreenState extends State<LoginScreen> {
       // Navigate to BottomNavBar on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) =>  NavBar()),
+        MaterialPageRoute(builder: (context) => NavBar()),
       );
     } on FirebaseAuthException catch (e) {
       String errorMessage;
@@ -66,11 +65,10 @@ class _NextScreenState extends State<LoginScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-                  colors: [Colors.green
-                  , Colors.green],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+            colors: [Colors.green, Colors.green],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 70),
@@ -104,7 +102,7 @@ class _NextScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-        
+
                   // Login Form with glassy effect
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -138,10 +136,11 @@ class _NextScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-        
+
                             // Email Field
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: SizedBox(
                                 width: 250,
                                 height: 50,
@@ -149,7 +148,8 @@ class _NextScreenState extends State<LoginScreen> {
                                   controller: _emailController,
                                   decoration: InputDecoration(
                                     hintText: 'abc@gmail.com',
-                                    prefixIcon: const Icon(Icons.email, color: Colors.grey),
+                                    prefixIcon: const Icon(Icons.email,
+                                        color: Colors.grey),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -157,9 +157,9 @@ class _NextScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-        
+
                             const SizedBox(height: 10),
-        
+
                             // Password Field
                             SizedBox(
                               width: 250,
@@ -169,27 +169,31 @@ class _NextScreenState extends State<LoginScreen> {
                                 obscureText: !_isPasswordVisible,
                                 decoration: InputDecoration(
                                   hintText: 'Password',
-                                  prefixIcon: const Icon(Icons.lock, color: Colors.grey),
+                                  prefixIcon: const Icon(Icons.lock,
+                                      color: Colors.grey),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                      _isPasswordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
                                       color: Colors.grey,
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _isPasswordVisible = !_isPasswordVisible;
+                                        _isPasswordVisible =
+                                            !_isPasswordVisible;
                                       });
                                     },
                                   ),
                                 ),
                               ),
                             ),
-        
+
                             const SizedBox(height: 20),
-        
+
                             // Login Button
                             Container(
                               width: 150,
@@ -212,7 +216,8 @@ class _NextScreenState extends State<LoginScreen> {
                                       onPressed: _login, // Call login function
                                       child: const Text(
                                         'Login',
-                                        style: TextStyle(color: Colors.white, fontSize: 16),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
                                       ),
                                     ),
                             ),
@@ -222,7 +227,7 @@ class _NextScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-        
+
                   // SignUp Redirection Text
                   GestureDetector(
                     onTap: () {
@@ -262,8 +267,3 @@ class _NextScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
-
-
-

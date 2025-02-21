@@ -4,7 +4,7 @@ import 'package:app/controller/controler.dart';
 import 'package:app/controller/mqtt_controller.dart';
 import 'package:app/model/user_device_model.dart';
 import 'package:app/services/firebase_service.dart';
-import 'package:app/views/home/dashboard_view.dart';
+import 'package:app/views/dashboard/dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';

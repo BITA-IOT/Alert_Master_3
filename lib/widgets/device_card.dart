@@ -1,7 +1,6 @@
 import 'package:app/utilz/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-
 class DeviceCard extends StatefulWidget {
   final String title;
   final String macAddress;
