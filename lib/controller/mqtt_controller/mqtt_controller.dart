@@ -260,6 +260,49 @@ class MqttController extends GetxController {
     _buildJsonPayload();
   }
 
+  void updateSuction(String low, String high) {
+    temp3setlow.value = int.parse(low);
+    temp3sethigh.value = int.parse(high);
+    _buildJsonPayload(); // JSON payload update karne ke liye
+  }
+
+  void updateDischargeTemp(String high, String low) {
+    temp4setlow.value = int.parse(low);
+    temp4sethigh.value = int.parse(high);
+    _buildJsonPayload();
+  }
+
+  void updateContainerValuesLP(String high, String low) {
+    psig1sethigh.value = int.parse(low);
+    psig1setlow.value = int.parse(high);
+    _buildJsonPayload(); // Call _publishJsonMessage to publish the updated container values
+  }
+
+  void updateContainerValuesHP(String high, String low) {
+    psig2sethigh.value = int.parse(low);
+    psig2setlow.value = int.parse(high);
+    _buildJsonPayload(); // Call _publishJsonMessage to publish the updated container values
+  }
+
+  void updateContainerValuesAmpereph1(String high, String low) {
+    log(high.toString());
+    amp1low.value = int.parse(high);
+    amp1high.value = int.parse(low);
+    _buildJsonPayload();
+  }
+
+  void updateContainerValuesAmpereph2(String high, String low) {
+    amp2low.value = int.parse(high);
+    amp2high.value = int.parse(low);
+    _buildJsonPayload();
+  }
+
+  void updateContainerValuesAmpereph3(String high, String low) {
+    amp3low.value = int.parse(high);
+    amp3high.value = int.parse(low);
+    _buildJsonPayload();
+  }
+
   void publishMessage(String message) {
     String topic = "/test/AM3-AAA001";
     if (client != null) {

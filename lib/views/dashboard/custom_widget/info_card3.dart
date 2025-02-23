@@ -1,3 +1,4 @@
+import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/controller/pressure_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,6 @@ class InfoCard3 extends StatefulWidget {
   final String image;
   final Color color;
   final String title;
-  final PressureController controller;
 
   InfoCard3({
     Key? key,
@@ -15,27 +15,25 @@ class InfoCard3 extends StatefulWidget {
     required this.image,
     required this.color,
     required this.title,
-    required this.controller,
   }) : super(key: key);
-
   @override
   State<InfoCard3> createState() => _InfoCard3State();
 }
+
+final MqttController _mqttController = Get.find<MqttController>();
 
 class _InfoCard3State extends State<InfoCard3> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       // Retrieve values from the controller
-      final setValue =
-          widget.controller.containerValues[widget.title]?['Set'] ?? '*';
-      final highValue =
-          widget.controller.containerValues[widget.title]?['High'] ?? '*';
+      final setValue = _mqttController.psig2.value;
+      final highValue = _mqttController.psig2setlow.value;
 
       // Determine the border color based on the set value
       Color borderColor;
-      double? set = double.tryParse(setValue);
-      double? high = double.tryParse(highValue);
+      double? set = double.tryParse(setValue.toString());
+      double? high = double.tryParse(highValue.toString());
 
       if (set != null && high != null) {
         // Red border: Set value is greater than or equal to the high value
@@ -57,7 +55,7 @@ class _InfoCard3State extends State<InfoCard3> {
 
       return GestureDetector(
         onTap: () {
-          _showDialog(context, widget.title, widget.controller);
+          _showDialog(context, widget.title, _mqttController);
         },
         child: Container(
           padding: const EdgeInsets.all(22),
@@ -109,16 +107,16 @@ class _InfoCard3State extends State<InfoCard3> {
 
   // Dialog to display and edit values
   void _showDialog(
-      BuildContext context, String title, PressureController controller) {
+      BuildContext context, String title, MqttController controller) {
     // Retrieve initial values
-    final highValue = controller.containerValues[title]?['High'] ?? '';
-    final lowValue = controller.containerValues[title]?['Low'] ?? '';
-    final setValue = controller.containerValues[title]?['Set'] ?? '';
+    final highValue = controller.psig2setlow.value;
+    final lowValue = controller.psig2sethigh.value;
+    final setValue = controller.psig2.value;
 
     // Text controllers for editing
-    final highController = TextEditingController(text: highValue);
-    final lowController = TextEditingController(text: lowValue);
-    final setController = TextEditingController(text: setValue);
+    final highController = TextEditingController(text: highValue.toString());
+    final lowController = TextEditingController(text: lowValue.toString());
+    final setController = TextEditingController(text: setValue.toString());
 
     // Track edit mode state
     bool isEditable = false;
@@ -190,8 +188,8 @@ class _InfoCard3State extends State<InfoCard3> {
                         return;
                       }
 
-                      controller.updateContainerValues(
-                          title, newHighValue, newLowValue, newSetValue);
+                      controller.updateContainerValuesHP(
+                          newHighValue, newLowValue);
                       Navigator.pop(context);
                     },
                     child: const Text('Save'),

@@ -32,9 +32,8 @@ class DashboardModel extends GetxController {
     suctionLowTemp.value = low;
   }
 
-  void updateDischargeTemp(String temp, String high, String low) {
-    print("Model updating discharge: Temp=$temp, High=$high, Low=$low");
-    dischargeTemp.value = temp;
+  void updateDischargeTemp(String high, String low) {
+    print("Model updating discharge:  High=$high, Low=$low");
     dischargeHighTemp.value = high;
     dischargeLowTemp.value = low;
   }

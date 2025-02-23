@@ -1,6 +1,6 @@
 import 'package:app/controller/amphere_controller.dart';
 import 'package:app/controller/dashboard_controller.dart';
-import 'package:app/controller/mqtt_controller.dart';
+import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/controller/pressure_controller.dart';
 import 'package:app/views/dashboard/custom_widget/info_card2.dart';
 import 'package:app/views/dashboard/custom_widget/info_card3.dart';
@@ -153,48 +153,39 @@ class Dashboard extends StatelessWidget {
                                 icon: Icons.thermostat,
                                 color: Colors.blue,
                                 title: "SUCTION",
-                                subtitle:
-                                    ' ${controller.model.suctionTemp.value}°C',
+                                subtitle: ' ${_mqttController.temp3.value}°C',
                                 onTap: () {
                                   showUpdateDialog(
-                                    context: context,
-                                    title: "suction",
-                                    currentTemp:
-                                        controller.model.suctionTemp.value,
-                                    currentHighTemp:
-                                        controller.model.suctionHighTemp.value,
-                                    currentLowTemp:
-                                        controller.model.suctionLowTemp.value,
-                                    onUpdate: (temp, high, low) {
-                                      controller.updateSuctionTemps(
-                                          temp, high, low);
-                                    },
-                                  );
+                                      context: context,
+                                      title: "suction",
+                                      currentTemp: _mqttController.temp3.value,
+                                      currentHighTemp:
+                                          _mqttController.temp3setlow.value,
+                                      currentLowTemp:
+                                          _mqttController.temp3sethigh.value,
+                                      onUpdate: _mqttController.updateSuction);
                                 },
                               )),
-                          Obx(() => InfoCard(
-                                icon: Icons.thermostat,
-                                color: Colors.redAccent,
-                                title: "DISCHARGE",
-                                subtitle:
-                                    ' ${controller.model.dischargeTemp.value}°C',
-                                onTap: () {
-                                  showUpdateDialog(
+                          Obx(
+                            () => InfoCard(
+                              icon: Icons.thermostat,
+                              color: Colors.redAccent,
+                              title: "DISCHARGE",
+                              subtitle: ' ${_mqttController.temp4.value}°C',
+                              onTap: () {
+                                showUpdateDialog(
                                     context: context,
                                     title: "Discharge",
-                                    currentTemp:
-                                        controller.model.dischargeTemp.value,
-                                    currentHighTemp: controller
-                                        .model.dischargeHighTemp.value,
+                                    currentTemp: _mqttController.temp4.value,
+                                    currentHighTemp:
+                                        _mqttController.temp4setlow.value,
                                     currentLowTemp:
-                                        controller.model.dischargeLowTemp.value,
-                                    onUpdate: (temp, high, low) {
-                                      controller.updateDischargeTemp(
-                                          temp, high, low);
-                                    },
-                                  );
-                                },
-                              )),
+                                        _mqttController.temp4sethigh.value,
+                                    onUpdate:
+                                        _mqttController.updateDischargeTemp);
+                              },
+                            ),
+                          )
                         ],
                       ),
                       const SizedBox(height: 30),
@@ -206,14 +197,12 @@ class Dashboard extends StatelessWidget {
                             image: 'assets/images/pressure icon.png',
                             color: Colors.blue,
                             title: 'L.P.',
-                            controller: pcontroller,
                           ),
                           InfoCard3(
                             context: context,
                             image: 'assets/images/pressure icon.png',
                             color: Colors.redAccent,
                             title: 'H.P.',
-                            controller: pcontroller,
                           ),
                         ],
                       ),
@@ -233,7 +222,6 @@ class Dashboard extends StatelessWidget {
                                     image: 'assets/images/pressure icon.png',
                                     color: Colors.green,
                                     title: 'O.P.',
-                                    controller: pcontroller,
                                   ),
 
                                 // Show second card if currentCardIndex is 2
@@ -375,17 +363,18 @@ class Dashboard extends StatelessWidget {
 void showUpdateDialog({
   required BuildContext context,
   required String title,
-  required String currentTemp,
-  required String currentHighTemp,
-  required String currentLowTemp,
-  required Function(String, String, String) onUpdate,
+  required int currentTemp,
+  required int currentHighTemp,
+  required int currentLowTemp,
+  required Function(
+    String,
+    String,
+  ) onUpdate,
 }) {
-  TextEditingController tempController =
-      TextEditingController(text: currentTemp);
   TextEditingController highTempController =
-      TextEditingController(text: currentHighTemp);
+      TextEditingController(text: "$currentHighTemp");
   TextEditingController lowTempController =
-      TextEditingController(text: currentLowTemp);
+      TextEditingController(text: "$currentLowTemp");
 
   showDialog(
     context: context,
@@ -396,14 +385,7 @@ void showUpdateDialog({
           mainAxisSize: MainAxisSize.min,
           children: [
             // Temperature TextField
-            TextField(
-              controller: tempController,
-              decoration: const InputDecoration(
-                labelText: 'Temperature',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
-            ),
+            Text("$currentTemp"),
             const SizedBox(height: 10),
             // High Temperature TextField
             TextField(
@@ -431,11 +413,7 @@ void showUpdateDialog({
           TextButton(
             onPressed: () {
               // Call onUpdate with the new values from the controllers
-              onUpdate(
-                tempController.text,
-                highTempController.text,
-                lowTempController.text,
-              );
+              onUpdate(highTempController.text, lowTempController.text);
               Navigator.pop(context);
             },
             child: const Text('Update'),

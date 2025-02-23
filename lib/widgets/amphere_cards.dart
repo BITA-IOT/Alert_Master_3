@@ -1,12 +1,15 @@
 import 'package:app/controller/amphere_controller.dart';
+import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/views/home/amphere_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class AverageInfoCard extends StatelessWidget {
   final AmpereController controller;
 
-  const AverageInfoCard({required this.controller, Key? key}) : super(key: key);
-
+  AverageInfoCard({required this.controller, Key? key}) : super(key: key);
+  final MqttController _mqttController = Get.find<MqttController>();
   void onCardTap(BuildContext context) {
     // Navigate to AmpereScreen
     Navigator.push(
@@ -65,8 +68,7 @@ class AverageInfoCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey, width: 4),
-
+            border: Border.all(color: Colors.grey, width: 4),
           ),
           width: MediaQuery.of(context).size.width * 0.42,
           child: Column(
@@ -92,21 +94,20 @@ class AverageInfoCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                    color: Colors.black,
-
+                                  color: Colors.black,
                                 ),
                                 textAlign: TextAlign.right,
                               ),
                               Text(
-                          '$avgSet AMP',
-                          textAlign: TextAlign.right,
-                          style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-                        ),
+                                '$avgSet AMP',
+                                textAlign: TextAlign.right,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ],
                       ),
-                    
                     ],
                   )
                 ],

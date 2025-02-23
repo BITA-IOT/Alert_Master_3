@@ -1,4 +1,6 @@
-import 'package:app/controller/pressure_controller.dart';
+import 'dart:developer';
+
+import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,31 +8,27 @@ class InfoCard2 extends StatelessWidget {
   final String image;
   final Color color;
   final String title;
-  final PressureController controller;
 
-  const InfoCard2({
+  InfoCard2({
     Key? key,
     required this.image,
     required this.color,
     required this.title,
-    required this.controller,
   }) : super(key: key);
-
+  final MqttController controller = Get.find<MqttController>();
   @override
   Widget build(BuildContext context) {
-    // Use Obx to make the widget reactive
     return Obx(() {
-      // Retrieve the set and low values from the controller
-      final setValue = controller.containerValues[title]?['Set'] ?? '*';
-      final lowValue = controller.containerValues[title]?['Low'] ?? '*';
+      final setValue = controller.psig1.value;
+      final lowValue = controller.psig1sethigh.value;
 
-      // Attempt to parse the set and low values as doubles
       Color borderColor;
-      double? set = double.tryParse(setValue);
-      double? low = double.tryParse(lowValue);
+      double? set = double.tryParse(setValue.toString()); //22
+      double? low = double.tryParse(lowValue.toString()); //14
 
-      // Logic for determining the border color based on the set value
       if (set != null && low != null) {
+        log(set.toString());
+        log(low.toString());
         if (set <= low) {
           borderColor = Colors.red;
         } else if (set <= low + 10) {
@@ -95,14 +93,14 @@ class InfoCard2 extends StatelessWidget {
   }
 
   void _showDialog(
-      BuildContext context, String title, PressureController controller) {
-    final highValue = controller.containerValues[title]?['High'] ?? '';
-    final lowValue = controller.containerValues[title]?['Low'] ?? '';
-    final setValue = controller.containerValues[title]?['Set'] ?? '';
+      BuildContext context, String title, MqttController controller) {
+    final highValue = controller.psig1setlow.value;
+    final lowValue = controller.psig1sethigh.value;
+    final setValue = controller.psig1;
 
-    final highController = TextEditingController(text: highValue);
-    final lowController = TextEditingController(text: lowValue);
-    final setController = TextEditingController(text: setValue);
+    final highController = TextEditingController(text: highValue.toString());
+    final lowController = TextEditingController(text: lowValue.toString());
+    final setController = TextEditingController(text: setValue.toString());
 
     bool isEditable = false;
     final passwordController = TextEditingController(text: '1234');
@@ -208,8 +206,8 @@ class InfoCard2 extends StatelessWidget {
                         return;
                       }
 
-                      controller.updateContainerValues(
-                          title, newHighValue, newLowValue, newSetValue);
+                      controller.updateContainerValuesLP(
+                          newLowValue, newHighValue);
                       Navigator.pop(context);
                     },
                     child: const Text('Save'),

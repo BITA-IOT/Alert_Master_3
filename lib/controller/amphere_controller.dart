@@ -7,9 +7,4 @@ class AmpereController extends GetxController {
   var publishStatus = ''.obs;
 
   // Update values in container map
-  void updateContainerValues(
-      String title, String high, String low, String set) {
-    mqttModel.containerValues[title] = {'High': high, 'Low': low, 'Set': set};
-    mqttModel.publishJsonMessage();
-  }
 }

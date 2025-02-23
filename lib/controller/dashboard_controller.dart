@@ -1,4 +1,4 @@
-import 'package:app/controller/mqtt_controller.dart';
+import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/controller/dashboard_model.dart';
 import 'package:get/get.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -89,17 +89,16 @@ class DashboardController extends GetxController {
     updateDashboard(); // Publish all data including the chilled water out temperature
   }
 
-  void updateSuctionTemps(String temp, String highTemp, String lowTemp) {
-    print("Updating suction temps: Temp=$temp, High=$highTemp, Low=$lowTemp");
-    model.suctionTemp.value = temp;
+  void updateSuctionTemps(String highTemp, String lowTemp) {
+    print("Updating suction temps:  High=$highTemp, Low=$lowTemp");
     model.suctionHighTemp.value = highTemp;
     model.suctionLowTemp.value = lowTemp;
     updateDashboard(); // Publish all data including the suction temps
   }
 
-  void updateDischargeTemp(String temp, String high, String low) {
-    print("Updating discharge temps: Temp=$temp, High=$high, Low=$low");
-    model.updateDischargeTemp(temp, high, low);
+  void updateDischargeTemp(String high, String low) {
+    print("Updating discharge temps: High=$high, Low=$low");
+    model.updateDischargeTemp(high, low);
     updateDashboard(); // Publish all data including the discharge temps
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:app/utilz/theme/theme.dart';
 import 'package:app/controller/controler.dart';
-import 'package:app/controller/mqtt_controller.dart';
+import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/model/user_device_model.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/views/dashboard/dashboard_view.dart';

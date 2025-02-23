@@ -1,4 +1,5 @@
 import 'package:app/controller/amphere_controller.dart';
+import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -9,6 +10,7 @@ class AmpereScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AmpereController controller = Get.put(AmpereController());
+    final MqttController _mqttController = Get.find<MqttController>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -27,9 +29,7 @@ class AmpereScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 40),
-              const Center(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 60),
 
               // Title container
               Center(
@@ -67,19 +67,34 @@ class AmpereScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildInfoCard(
-                    context: context,
-                    icon: Icons.electric_bolt_sharp,
-                    color: Colors.blue,
-                    title: 'Phase 1',
-                    controller: controller,
-                  ),
+                      set: "${_mqttController.amp2.value}",
+                      low: "${_mqttController.amp1high.value}",
+                      high: "${_mqttController.amp1low.value}",
+                      context: context,
+                      icon: Icons.electric_bolt_sharp,
+                      color: Colors.blue,
+                      title: 'Phase 1',
+                      onTap: () => _showDialogph1(
+                          context,
+                          'Phase 1',
+                          "${_mqttController.amp2.value}",
+                          "${_mqttController.amp1high.value}",
+                          "${_mqttController.amp1low.value}")),
                   _buildInfoCard(
-                    context: context,
-                    icon: Icons.electric_bolt_sharp,
-                    color: Colors.orange,
-                    title: 'Phase 2',
-                    controller: controller,
-                  ),
+                      set: "${_mqttController.amp3.value}",
+                      low: "${_mqttController.amp2high.value}",
+                      high: "${_mqttController.amp2low.value}",
+                      context: context,
+                      icon: Icons.electric_bolt_sharp,
+                      color: Colors.orange,
+                      title: 'Phase 2',
+                      onTap: () => _showDialogph2(
+                            context,
+                            'Phase 2',
+                            "${_mqttController.amp3.value}",
+                            "${_mqttController.amp2high.value}",
+                            "${_mqttController.amp2low.value}",
+                          )),
                 ],
               ),
               const SizedBox(height: 30),
@@ -88,12 +103,19 @@ class AmpereScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildInfoCard(
-                    context: context,
-                    icon: Icons.electric_bolt_sharp,
-                    color: Colors.green,
-                    title: 'Phase 3',
-                    controller: controller,
-                  ),
+                      set: "${_mqttController.amp1.value}",
+                      low: "${_mqttController.amp3high.value}",
+                      high: "${_mqttController.amp3low.value}",
+                      context: context,
+                      icon: Icons.electric_bolt_sharp,
+                      color: Colors.green,
+                      title: 'Phase 3',
+                      onTap: () => _showDialogph3(
+                          context,
+                          'Phase 3',
+                          "${_mqttController.amp1.value}",
+                          "${_mqttController.amp3high.value}",
+                          "${_mqttController.amp3low.value}")),
                 ],
               ),
               const SizedBox(height: 30),
@@ -109,16 +131,13 @@ class AmpereScreen extends StatelessWidget {
     required IconData icon,
     required Color color,
     required String title,
-    required AmpereController controller,
+    required String high,
+    required String low,
+    required String set,
+    required VoidCallback onTap,
   }) {
-    final high = controller.mqttModel.containerValues[title]?['High'] ?? 'N/A';
-    final low = controller.mqttModel.containerValues[title]?['Low'] ?? 'N/A';
-    final set = controller.mqttModel.containerValues[title]?['Set'] ?? 'N/A';
-
     return GestureDetector(
-      onTap: () {
-        _showDialog(context, title, controller);
-      },
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -151,14 +170,15 @@ class AmpereScreen extends StatelessWidget {
     );
   }
 
-  void _showDialog(
-      BuildContext context, String title, AmpereController controller) {
-    final TextEditingController highController = TextEditingController(
-        text: controller.mqttModel.containerValues[title]?['High']);
-    final TextEditingController lowController = TextEditingController(
-        text: controller.mqttModel.containerValues[title]?['Low']);
-    final TextEditingController setController = TextEditingController(
-        text: controller.mqttModel.containerValues[title]?['Set']);
+  void _showDialogph1(BuildContext context, String title, set, low, high) {
+    final MqttController _mqttController = Get.find<MqttController>();
+
+    final TextEditingController highController =
+        TextEditingController(text: high);
+    final TextEditingController lowController =
+        TextEditingController(text: low);
+    final TextEditingController setController =
+        TextEditingController(text: set);
 
     showDialog(
       context: context,
@@ -194,12 +214,117 @@ class AmpereScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                controller.updateContainerValues(
-                  title,
-                  highController.text,
-                  lowController.text,
-                  setController.text,
-                );
+                _mqttController.updateContainerValuesAmpereph1(high, low);
+                Navigator.pop(context);
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDialogph2(BuildContext context, String title, set, low, high) {
+    final MqttController _mqttController = Get.find<MqttController>();
+
+    final TextEditingController highController =
+        TextEditingController(text: high);
+    final TextEditingController lowController =
+        TextEditingController(text: low);
+    final TextEditingController setController =
+        TextEditingController(text: set);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Set Levels for $title'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: highController,
+                decoration: const InputDecoration(labelText: 'High Level'),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: lowController,
+                decoration: const InputDecoration(labelText: 'Low Level'),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: setController,
+                decoration: const InputDecoration(labelText: 'Set Level'),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _mqttController.updateContainerValuesAmpereph2(high, low);
+                Navigator.pop(context);
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDialogph3(BuildContext context, String title, set, low, high) {
+    final MqttController _mqttController = Get.find<MqttController>();
+
+    final TextEditingController highController =
+        TextEditingController(text: high);
+    final TextEditingController lowController =
+        TextEditingController(text: low);
+    final TextEditingController setController =
+        TextEditingController(text: set);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Set Levels for $title'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: highController,
+                decoration: const InputDecoration(labelText: 'High Level'),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: lowController,
+                decoration: const InputDecoration(labelText: 'Low Level'),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: setController,
+                decoration: const InputDecoration(labelText: 'Set Level'),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _mqttController.updateContainerValuesAmpereph3(high, low);
                 Navigator.pop(context);
               },
               child: const Text('Save'),

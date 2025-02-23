@@ -82,7 +82,8 @@ class PressureController extends GetxController {
   }
 
   // Update container values
-  void updateContainerValues(String title, String high, String low, String set) {
+  void updateContainerValues(
+      String title, String high, String low, String set) {
     _containerValues[title] = {'High': high, 'Low': low, 'Set': set};
     update(); // Trigger update in UI
     _publishJsonMessage(); // Call _publishJsonMessage to publish the updated container values
@@ -90,7 +91,8 @@ class PressureController extends GetxController {
 
   // This is the function that publishes container values as a JSON message
   void _publishJsonMessage() {
-    final String jsonPayload = _containerValues.toString(); // Convert the map to a string or JSON
+    final String jsonPayload =
+        _containerValues.toString(); // Convert the map to a string or JSON
     publishMessage(jsonPayload); // Publish the message
   }
 
@@ -110,6 +112,7 @@ class PressureController extends GetxController {
   var isOilTemperatureOn = false.obs;
 
   void toggleCardVisibility() {
-    currentCardIndex.value = (currentCardIndex.value + 1) % 3; // Cycle through 0, 1, 2
+    currentCardIndex.value =
+        (currentCardIndex.value + 1) % 3; // Cycle through 0, 1, 2
   }
 }
