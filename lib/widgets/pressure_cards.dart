@@ -1,9 +1,9 @@
-import 'package:app/controller/pressure_controller.dart';
+import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OilTemperatureCard extends StatelessWidget {
-  final PressureController controller;
+  final MqttController controller;
 
   const OilTemperatureCard({Key? key, required this.controller})
       : super(key: key);

@@ -54,7 +54,8 @@ class MqttController extends GetxController {
 
   var correctPassword = "1234567".obs;
   var isPasswordCorrect = false.obs;
-
+  var currentCardIndex = 0.obs; // Observable variable for card visibility
+  var isOilTemperatureOn = false.obs;
   MqttServerClient? client;
 
   @override
@@ -264,6 +265,11 @@ class MqttController extends GetxController {
 
     String jsonString = jsonEncode(jsonPayload);
     publishMessage(jsonString);
+  }
+
+  void toggleCardVisibility() {
+    currentCardIndex.value =
+        (currentCardIndex.value + 1) % 3; // Cycle through 0, 1, 2
   }
 
   void updateChilledWaterInTemp(String temp) {

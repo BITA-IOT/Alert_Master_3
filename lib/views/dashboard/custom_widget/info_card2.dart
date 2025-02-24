@@ -77,10 +77,7 @@ class InfoCard2 extends StatelessWidget {
                   Text(
                     '$setValue PSI',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                    style: const TextStyle(fontSize: 12, color: Colors.black),
                   ),
                 ],
               ),

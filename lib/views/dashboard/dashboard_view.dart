@@ -1,6 +1,4 @@
-import 'package:app/controller/amphere_controller.dart';
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
-import 'package:app/controller/pressure_controller.dart';
 import 'package:app/views/dashboard/custom_widget/info_card2.dart';
 import 'package:app/views/dashboard/custom_widget/info_card3.dart';
 import 'package:app/views/dashboard/custom_widget/oil_pressure.dart';
@@ -20,8 +18,6 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    final pcontroller = Get.put(PressureController());
-    final acontroller = Get.put(AmpereController());
     final MqttController _mqttController = Get.put(MqttController());
 
     TextEditingController passwordController = TextEditingController();
@@ -205,12 +201,55 @@ class _DashboardState extends State<Dashboard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          AverageInfoCard(),
+                          GestureDetector(
+                              onLongPress: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text('Enter Password'),
+                                      content: TextField(
+                                        controller: passwordController,
+                                        obscureText: true,
+                                        decoration: InputDecoration(
+                                            hintText: "Password"),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            if (passwordController.text ==
+                                                "1234") {
+                                              Navigator.of(context).pop();
+                                              _mqttController
+                                                  .toggleCardVisibility();
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'Invalid password')),
+                                              );
+                                            }
+                                          },
+                                          child: Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: AverageInfoCard()),
                           Obx(() {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                if (pcontroller.currentCardIndex.value == 1)
+                                if (_mqttController.currentCardIndex.value == 1)
                                   OilPressure(
                                     // context: context,
                                     image: 'assets/images/pressure icon.png',
@@ -219,9 +258,9 @@ class _DashboardState extends State<Dashboard> {
                                   ),
 
                                 // Show second card if currentCardIndex is 2
-                                if (pcontroller.currentCardIndex.value == 2)
+                                if (_mqttController.currentCardIndex.value == 2)
                                   OilTemperatureCard(
-                                    controller: pcontroller,
+                                    controller: _mqttController,
                                   )
                               ],
                             );
@@ -235,79 +274,6 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               ),
-              Positioned(
-                  bottom: 10,
-                  left: 0,
-                  right: 0,
-                  child: Opacity(
-                    opacity: 0.0, // Makes the button fully transparent
-                    child: GestureDetector(
-                      onDoubleTap: () {
-                        pcontroller.toggleCardVisibility();
-                      },
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Action on normal press
-                          print("Button pressed!");
-                        },
-                        onLongPress: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text('Enter Password'),
-                                content: TextField(
-                                  controller: passwordController,
-                                  obscureText: true,
-                                  decoration:
-                                      InputDecoration(hintText: "Password"),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      if (passwordController.text == "1234") {
-                                        Navigator.of(context).pop();
-                                        pcontroller.toggleCardVisibility();
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                              content:
-                                                  Text('Invalid password')),
-                                        );
-                                      }
-                                    },
-                                    child: Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-
-                          // Action on long press
-                          print("Button long pressed!");
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 36.0), // Adjust padding as necessary
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(12), // Rounded corners
-                          ),
-                        ),
-                        child: Text(
-                          "", // Empty text to ensure the button still exists
-                        ),
-                      ),
-                    ),
-                  ))
             ],
           ),
         ),
@@ -317,7 +283,7 @@ class _DashboardState extends State<Dashboard> {
 
   void _showTemperatureDialog(BuildContext context, String title,
       int currentTemp, Function(String) onUpdate) {
-    TextEditingController tempController =
+    TextEditingController tem_mqttController =
         TextEditingController(text: "$currentTemp");
 
     showDialog(
@@ -326,7 +292,7 @@ class _DashboardState extends State<Dashboard> {
         return AlertDialog(
           title: Text('Update $title Temperature'),
           content: TextField(
-            controller: tempController,
+            controller: tem_mqttController,
             decoration: const InputDecoration(
               labelText: 'New Temperature',
               border: OutlineInputBorder(),
@@ -336,7 +302,7 @@ class _DashboardState extends State<Dashboard> {
           actions: [
             TextButton(
               onPressed: () {
-                onUpdate(tempController.text);
+                onUpdate(tem_mqttController.text);
                 Navigator.pop(context);
               },
               child: const Text('Update'),
@@ -365,9 +331,9 @@ void showUpdateDialog({
     String,
   ) onUpdate,
 }) {
-  TextEditingController highTempController =
+  TextEditingController highTem_mqttController =
       TextEditingController(text: "$currentHighTemp");
-  TextEditingController lowTempController =
+  TextEditingController lowTem_mqttController =
       TextEditingController(text: "$currentLowTemp");
 
   showDialog(
@@ -383,7 +349,7 @@ void showUpdateDialog({
             const SizedBox(height: 10),
             // High Temperature TextField
             TextField(
-              controller: highTempController,
+              controller: highTem_mqttController,
               decoration: const InputDecoration(
                 labelText: 'High Temperature',
                 border: OutlineInputBorder(),
@@ -393,7 +359,7 @@ void showUpdateDialog({
             const SizedBox(height: 10),
             // Low Temperature TextField
             TextField(
-              controller: lowTempController,
+              controller: lowTem_mqttController,
               decoration: const InputDecoration(
                 labelText: 'Low Temperature',
                 border: OutlineInputBorder(),
@@ -407,7 +373,7 @@ void showUpdateDialog({
           TextButton(
             onPressed: () {
               // Call onUpdate with the new values from the controllers
-              onUpdate(highTempController.text, lowTempController.text);
+              onUpdate(highTem_mqttController.text, lowTem_mqttController.text);
               Navigator.pop(context);
             },
             child: const Text('Update'),
@@ -424,71 +390,3 @@ void showUpdateDialog({
     },
   );
 }
-
-// void _showDialog(
-//     BuildContext context, String title, PressureController controller) {
-//   final highValue = controller.containerValues[title]?['High'] ?? '';
-//   final lowValue = controller.containerValues[title]?['Low'] ?? '';
-//   final setValue = controller.containerValues[title]?['Set'] ?? '';
-
-//   final highController = TextEditingController(text: highValue);
-//   final lowController = TextEditingController(text: lowValue);
-//   final setController = TextEditingController(text: setValue);
-
-//   showDialog(
-//     context: context,
-//     builder: (context) {
-//       return AlertDialog(
-//         title: Text('Update $title Pressure'),
-//         content: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             TextField(
-//               controller: setController,
-//               decoration: const InputDecoration(
-//                 labelText: 'Set Pressure',
-//                 border: OutlineInputBorder(),
-//               ),
-//             ),
-//             const SizedBox(height: 10),
-//             TextField(
-//               controller: highController,
-//               decoration: const InputDecoration(
-//                 labelText: 'High Pressure',
-//                 border: OutlineInputBorder(),
-//               ),
-//             ),
-//             const SizedBox(height: 10),
-//             TextField(
-//               controller: lowController,
-//               decoration: const InputDecoration(
-//                 labelText: 'Low Pressure',
-//                 border: OutlineInputBorder(),
-//               ),
-//             ),
-//           ],
-//         ),
-//         actions: [
-//           TextButton(
-//             onPressed: () {
-//               controller.updateContainerValues(
-//                 title,
-//                 setController.text,
-//                 highController.text,
-//                 lowController.text,
-//               );
-//               Navigator.pop(context);
-//             },
-//             child: const Text('Update'),
-//           ),
-//           TextButton(
-//             onPressed: () {
-//               Navigator.pop(context);
-//             },
-//             child: const Text('Cancel'),
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }

@@ -1,12 +1,10 @@
-import 'package:app/controller/amphere_controller.dart';
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/views/home/amphere_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class AverageInfoCard extends StatelessWidget {
-  AverageInfoCard({Key? key}) : super(key: key);
+  AverageInfoCard({super.key});
   final MqttController _mqttController = Get.find<MqttController>();
   void onCardTap(BuildContext context) {
     Navigator.push(

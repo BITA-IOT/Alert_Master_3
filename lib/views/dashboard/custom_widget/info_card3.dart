@@ -1,5 +1,4 @@
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
-import 'package:app/controller/pressure_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -91,10 +90,7 @@ class _InfoCard3State extends State<InfoCard3> {
                   Text(
                     '$setValue PSI', // Display the set value
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                    style: const TextStyle(fontSize: 12, color: Colors.black),
                   ),
                 ],
               ),
