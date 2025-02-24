@@ -1,15 +1,12 @@
-import 'package:app/controller/amphere_controller.dart';
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mqtt_client/mqtt_client.dart';
 
 class AmpereScreen extends StatelessWidget {
   const AmpereScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final AmpereController controller = Get.put(AmpereController());
     final MqttController _mqttController = Get.find<MqttController>();
 
     return Scaffold(
@@ -63,10 +60,11 @@ class AmpereScreen extends StatelessWidget {
               const SizedBox(height: 30),
 
               // Info cards
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildInfoCard(
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildInfoCard(
                       set: "${_mqttController.amp2.value}",
                       low: "${_mqttController.amp1high.value}",
                       high: "${_mqttController.amp1low.value}",
@@ -79,44 +77,50 @@ class AmpereScreen extends StatelessWidget {
                           'Phase 1',
                           "${_mqttController.amp2.value}",
                           "${_mqttController.amp1high.value}",
-                          "${_mqttController.amp1low.value}")),
-                  _buildInfoCard(
-                      set: "${_mqttController.amp3.value}",
-                      low: "${_mqttController.amp2high.value}",
-                      high: "${_mqttController.amp2low.value}",
-                      context: context,
-                      icon: Icons.electric_bolt_sharp,
-                      color: Colors.orange,
-                      title: 'Phase 2',
-                      onTap: () => _showDialogph2(
+                          "${_mqttController.amp1low.value}",
+                          _mqttController.updateContainerValuesAmpereph1),
+                    ),
+                    _buildInfoCard(
+                        set: "${_mqttController.amp3.value}",
+                        low: "${_mqttController.amp2high.value}",
+                        high: "${_mqttController.amp2low.value}",
+                        context: context,
+                        icon: Icons.electric_bolt_sharp,
+                        color: Colors.orange,
+                        title: 'Phase 2',
+                        onTap: () => _showDialogph2(
                             context,
                             'Phase 2',
                             "${_mqttController.amp3.value}",
                             "${_mqttController.amp2high.value}",
                             "${_mqttController.amp2low.value}",
-                          )),
-                ],
+                            _mqttController.updateContainerValuesAmpereph2)),
+                  ],
+                ),
               ),
               const SizedBox(height: 30),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildInfoCard(
-                      set: "${_mqttController.amp1.value}",
-                      low: "${_mqttController.amp3high.value}",
-                      high: "${_mqttController.amp3low.value}",
-                      context: context,
-                      icon: Icons.electric_bolt_sharp,
-                      color: Colors.green,
-                      title: 'Phase 3',
-                      onTap: () => _showDialogph3(
-                          context,
-                          'Phase 3',
-                          "${_mqttController.amp1.value}",
-                          "${_mqttController.amp3high.value}",
-                          "${_mqttController.amp3low.value}")),
-                ],
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildInfoCard(
+                        set: "${_mqttController.amp1.value}",
+                        low: "${_mqttController.amp3high.value}",
+                        high: "${_mqttController.amp3low.value}",
+                        context: context,
+                        icon: Icons.electric_bolt_sharp,
+                        color: Colors.green,
+                        title: 'Phase 3',
+                        onTap: () => _showDialogph3(
+                            context,
+                            'Phase 3',
+                            "${_mqttController.amp1.value}",
+                            "${_mqttController.amp3high.value}",
+                            "${_mqttController.amp3low.value}",
+                            _mqttController.updateContainerValuesAmpereph3)),
+                  ],
+                ),
               ),
               const SizedBox(height: 30),
             ],
@@ -170,7 +174,8 @@ class AmpereScreen extends StatelessWidget {
     );
   }
 
-  void _showDialogph1(BuildContext context, String title, set, low, high) {
+  void _showDialogph1(BuildContext context, String title, String set,
+      String low, String high, Function(String, String) onUpdate) {
     final MqttController _mqttController = Get.find<MqttController>();
 
     final TextEditingController highController =
@@ -214,7 +219,7 @@ class AmpereScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                _mqttController.updateContainerValuesAmpereph1(high, low);
+                onUpdate(highController.text, lowController.text);
                 Navigator.pop(context);
               },
               child: const Text('Save'),
@@ -225,7 +230,8 @@ class AmpereScreen extends StatelessWidget {
     );
   }
 
-  void _showDialogph2(BuildContext context, String title, set, low, high) {
+  void _showDialogph2(BuildContext context, String title, String set,
+      String low, String high, Function(String, String) onUpdate) {
     final MqttController _mqttController = Get.find<MqttController>();
 
     final TextEditingController highController =
@@ -269,7 +275,7 @@ class AmpereScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                _mqttController.updateContainerValuesAmpereph2(high, low);
+                onUpdate(highController.text, lowController.text);
                 Navigator.pop(context);
               },
               child: const Text('Save'),
@@ -280,7 +286,8 @@ class AmpereScreen extends StatelessWidget {
     );
   }
 
-  void _showDialogph3(BuildContext context, String title, set, low, high) {
+  void _showDialogph3(BuildContext context, String title, String set,
+      String low, String high, Function(String, String) onUpdate) {
     final MqttController _mqttController = Get.find<MqttController>();
 
     final TextEditingController highController =
@@ -324,7 +331,7 @@ class AmpereScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                _mqttController.updateContainerValuesAmpereph3(high, low);
+                onUpdate(highController.text, lowController.text);
                 Navigator.pop(context);
               },
               child: const Text('Save'),

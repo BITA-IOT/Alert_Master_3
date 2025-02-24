@@ -1,21 +1,25 @@
 import 'package:app/controller/amphere_controller.dart';
-import 'package:app/controller/dashboard_controller.dart';
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/controller/pressure_controller.dart';
 import 'package:app/views/dashboard/custom_widget/info_card2.dart';
 import 'package:app/views/dashboard/custom_widget/info_card3.dart';
+import 'package:app/views/dashboard/custom_widget/oil_pressure.dart';
 import 'package:app/widgets/amphere_cards.dart';
 import 'package:app/views/dashboard/custom_widget/info_card.dart';
 import 'package:app/widgets/pressure_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   Dashboard({super.key});
 
   @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  @override
   Widget build(BuildContext context) {
-    final controller = Get.put(DashboardController());
     final pcontroller = Get.put(PressureController());
     final acontroller = Get.put(AmpereController());
     final MqttController _mqttController = Get.put(MqttController());
@@ -67,50 +71,41 @@ class Dashboard extends StatelessWidget {
                         height: 20,
                       ),
                       Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            _mqttController.compStatus(
-                                _mqttController.comp1status.value == 1
-                                    ? "0"
-                                    : "1");
-                          },
-                          child: Obx(() => Container(
-                                padding: const EdgeInsets.all(22),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border:
-                                      Border.all(color: Colors.grey, width: 4),
-                                ),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: 'COMPRESSOR STATUS: ',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black
-                                        // Hardcoded text always black
-                                        ),
-                                    children: [
-                                      TextSpan(
-                                        text:
+                        child: Obx(() => Container(
+                              padding: const EdgeInsets.all(22),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                border:
+                                    Border.all(color: Colors.grey, width: 4),
+                              ),
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'COMPRESSOR STATUS: ',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black
+                                      // Hardcoded text always black
+                                      ),
+                                  children: [
+                                    TextSpan(
+                                      text:
+                                          _mqttController.comp1status.value == 1
+                                              ? 'ON'
+                                              : 'OFF',
+                                      style: TextStyle(
+                                        color:
                                             _mqttController.comp1status.value ==
                                                     1
-                                                ? 'ON'
-                                                : 'OFF',
-                                        style: TextStyle(
-                                          color: _mqttController
-                                                      .comp1status.value ==
-                                                  1
-                                              ? Colors.green
-                                              : Colors.redAccent,
-                                        ),
+                                                ? Colors.green
+                                                : Colors.redAccent,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              )),
-                        ),
+                              ),
+                            )),
                       ),
                       const SizedBox(height: 20),
                       Row(
@@ -210,14 +205,13 @@ class Dashboard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          AverageInfoCard(controller: acontroller),
+                          AverageInfoCard(),
                           Obx(() {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // Show first card if currentCardIndex is 1
                                 if (pcontroller.currentCardIndex.value == 1)
-                                  InfoCard2(
+                                  OilPressure(
                                     // context: context,
                                     image: 'assets/images/pressure icon.png',
                                     color: Colors.green,

@@ -1,29 +1,30 @@
 import 'dart:developer';
+
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class InfoCard2 extends StatelessWidget {
+class OilPressure extends StatelessWidget {
   final String image;
   final Color color;
   final String title;
 
-  InfoCard2({
-    super.key,
+  OilPressure({
+    Key? key,
     required this.image,
     required this.color,
     required this.title,
-  });
+  }) : super(key: key);
   final MqttController controller = Get.find<MqttController>();
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final setValue = controller.psig1.value;
-      final lowValue = controller.psig1sethigh.value;
+      final setValue = controller.psig3.value;
+      final lowValue = controller.psig3sethigh.value;
 
       Color borderColor;
-      double? set = double.tryParse(setValue.toString());
-      double? low = double.tryParse(lowValue.toString());
+      double? set = double.tryParse(setValue.toString()); //22
+      double? low = double.tryParse(lowValue.toString()); //14
 
       if (set != null && low != null) {
         log(set.toString());
@@ -75,7 +76,7 @@ class InfoCard2 extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    '$setValue PSI',
+                    '$setValue PSI', // Display the set value
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 18,
@@ -93,9 +94,9 @@ class InfoCard2 extends StatelessWidget {
 
   void _showDialog(
       BuildContext context, String title, MqttController controller) {
-    final highValue = controller.psig1setlow.value;
-    final lowValue = controller.psig1sethigh.value;
-    final setValue = controller.psig1;
+    final highValue = controller.psig3setlow.value;
+    final lowValue = controller.psig3sethigh.value;
+    final setValue = controller.psig3;
 
     final highController = TextEditingController(text: highValue.toString());
     final lowController = TextEditingController(text: lowValue.toString());
@@ -205,8 +206,7 @@ class InfoCard2 extends StatelessWidget {
                         return;
                       }
 
-                      controller.updateContainerValuesLP(
-                          newLowValue, newHighValue);
+                      controller.updateOilPressure(newLowValue, newHighValue);
                       Navigator.pop(context);
                     },
                     child: const Text('Save'),

@@ -6,61 +6,17 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 class AverageInfoCard extends StatelessWidget {
-  final AmpereController controller;
-
-  AverageInfoCard({required this.controller, Key? key}) : super(key: key);
+  AverageInfoCard({Key? key}) : super(key: key);
   final MqttController _mqttController = Get.find<MqttController>();
   void onCardTap(BuildContext context) {
-    // Navigate to AmpereScreen
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AmpereScreen()),
+      MaterialPageRoute(builder: (context) => const AmpereScreen()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Safe parsing of values, ensuring the correct data type is used for operations
-    final high1 = int.tryParse(controller
-                .mqttModel.containerValues['Phase 1']?['High']
-                .toString() ??
-            '0') ??
-        0;
-    final low1 = int.tryParse(controller
-                .mqttModel.containerValues['Phase 1']?['Low']
-                .toString() ??
-            '0') ??
-        0;
-    final set1 = int.tryParse(controller
-                .mqttModel.containerValues['Phase 1']?['Set']
-                .toString() ??
-            '0') ??
-        0;
-
-    final high2 = int.tryParse(controller
-                .mqttModel.containerValues['Phase 2']?['High']
-                .toString() ??
-            '0') ??
-        0;
-    final low2 = int.tryParse(controller
-                .mqttModel.containerValues['Phase 2']?['Low']
-                .toString() ??
-            '0') ??
-        0;
-    final set2 = int.tryParse(controller
-                .mqttModel.containerValues['Phase 2']?['Set']
-                .toString() ??
-            '0') ??
-        0;
-
-    final set3 = int.tryParse(controller
-                .mqttModel.containerValues['Phase 3']?['Set']
-                .toString() ??
-            '0') ??
-        0;
-
-    final avgSet = (set1 + set2 + set3) ~/ 3;
-
     return GestureDetector(
         onTap: () => onCardTap(context), // Handle tap
         child: Container(
@@ -98,12 +54,30 @@ class AverageInfoCard extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.right,
                               ),
-                              Text(
-                                '$avgSet AMP',
-                                textAlign: TextAlign.right,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
+                              Obx(() {
+                                final set1 = int.tryParse(_mqttController
+                                        .amp2.value
+                                        .toString()) ??
+                                    0;
+                                final set2 = int.tryParse(_mqttController
+                                        .amp3.value
+                                        .toString()) ??
+                                    0;
+
+                                final set3 = int.tryParse(_mqttController
+                                        .amp1.value
+                                        .toString()) ??
+                                    0;
+
+                                final avgSet = (set1 + set2 + set3) ~/ 3;
+                                return Text(
+                                  '$avgSet AMP',
+                                  textAlign: TextAlign.right,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              }),
                             ],
                           ),
                         ],
