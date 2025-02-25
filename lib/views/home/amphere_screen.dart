@@ -163,11 +163,17 @@ class AmpereScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-            Text(
-              'High: $high\nLow: $low\nSet: $set',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12),
-            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('High: $high', style: const TextStyle(fontSize: 12)),
+                  Text('Low: $low', style: const TextStyle(fontSize: 12)),
+                  Text('Temp.: $set', style: const TextStyle(fontSize: 12)),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -176,14 +182,12 @@ class AmpereScreen extends StatelessWidget {
 
   void _showDialogph1(BuildContext context, String title, String set,
       String low, String high, Function(String, String) onUpdate) {
-    final MqttController _mqttController = Get.find<MqttController>();
-
     final TextEditingController highController =
         TextEditingController(text: high);
     final TextEditingController lowController =
         TextEditingController(text: low);
-    final TextEditingController setController =
-        TextEditingController(text: set);
+    // final TextEditingController setController =
+    //     TextEditingController(text: set);
 
     showDialog(
       context: context,
@@ -193,6 +197,14 @@ class AmpereScreen extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text(
+                "TEMPERATURE : $set",
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               TextField(
                 controller: highController,
                 decoration: const InputDecoration(labelText: 'High Level'),
@@ -203,11 +215,11 @@ class AmpereScreen extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Low Level'),
                 keyboardType: TextInputType.number,
               ),
-              TextField(
-                controller: setController,
-                decoration: const InputDecoration(labelText: 'Set Level'),
-                keyboardType: TextInputType.number,
-              ),
+              // TextField(
+              //   controller: setController,
+              //   decoration: const InputDecoration(labelText: 'Set Level'),
+              //   keyboardType: TextInputType.number,
+              // ),
             ],
           ),
           actions: [
@@ -232,14 +244,12 @@ class AmpereScreen extends StatelessWidget {
 
   void _showDialogph2(BuildContext context, String title, String set,
       String low, String high, Function(String, String) onUpdate) {
-    final MqttController _mqttController = Get.find<MqttController>();
-
     final TextEditingController highController =
         TextEditingController(text: high);
     final TextEditingController lowController =
         TextEditingController(text: low);
-    final TextEditingController setController =
-        TextEditingController(text: set);
+    // final TextEditingController setController =
+    //     TextEditingController(text: set);
 
     showDialog(
       context: context,
@@ -249,6 +259,14 @@ class AmpereScreen extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text(
+                "TEMPERATURE : $set",
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               TextField(
                 controller: highController,
                 decoration: const InputDecoration(labelText: 'High Level'),
@@ -259,11 +277,11 @@ class AmpereScreen extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Low Level'),
                 keyboardType: TextInputType.number,
               ),
-              TextField(
-                controller: setController,
-                decoration: const InputDecoration(labelText: 'Set Level'),
-                keyboardType: TextInputType.number,
-              ),
+              // TextField(
+              //   controller: setController,
+              //   decoration: const InputDecoration(labelText: 'Set Level'),
+              //   keyboardType: TextInputType.number,
+              // ),
             ],
           ),
           actions: [
@@ -288,14 +306,12 @@ class AmpereScreen extends StatelessWidget {
 
   void _showDialogph3(BuildContext context, String title, String set,
       String low, String high, Function(String, String) onUpdate) {
-    final MqttController _mqttController = Get.find<MqttController>();
-
     final TextEditingController highController =
         TextEditingController(text: high);
     final TextEditingController lowController =
         TextEditingController(text: low);
-    final TextEditingController setController =
-        TextEditingController(text: set);
+    // final TextEditingController setController =
+    //     TextEditingController(text: set);
 
     showDialog(
       context: context,
@@ -305,6 +321,14 @@ class AmpereScreen extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text(
+                "TEMPERATURE : $set",
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               TextField(
                 controller: highController,
                 decoration: const InputDecoration(labelText: 'High Level'),
@@ -315,11 +339,11 @@ class AmpereScreen extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Low Level'),
                 keyboardType: TextInputType.number,
               ),
-              TextField(
-                controller: setController,
-                decoration: const InputDecoration(labelText: 'Set Level'),
-                keyboardType: TextInputType.number,
-              ),
+              // TextField(
+              //   controller: setController,
+              //   decoration: const InputDecoration(labelText: 'Set Level'),
+              //   keyboardType: TextInputType.number,
+              // ),
             ],
           ),
           actions: [

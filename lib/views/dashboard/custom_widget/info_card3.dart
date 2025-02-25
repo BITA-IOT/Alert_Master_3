@@ -35,21 +35,15 @@ class _InfoCard3State extends State<InfoCard3> {
       double? high = double.tryParse(highValue.toString());
 
       if (set != null && high != null) {
-        // Red border: Set value is greater than or equal to the high value
         if (set >= high) {
           borderColor = Colors.red;
-        }
-        // Orange border: Set value is within a certain range below the high value
-        else if (set >= high - 10) {
+        } else if (set >= high - 10) {
           borderColor = Colors.orange;
-        }
-        // Green border: Set value is significantly lower than the high value
-        else {
+        } else {
           borderColor = Colors.green;
         }
       } else {
-        borderColor =
-            Colors.grey; // Default color for invalid or missing set value
+        borderColor = Colors.grey;
       }
 
       return GestureDetector(
@@ -57,7 +51,8 @@ class _InfoCard3State extends State<InfoCard3> {
           _showDialog(context, widget.title, _mqttController);
         },
         child: Container(
-          padding: const EdgeInsets.all(22),
+          height: Get.height * 0.13,
+          width: Get.width * 0.43,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -66,33 +61,39 @@ class _InfoCard3State extends State<InfoCard3> {
               width: 4,
             ),
           ),
-          width: MediaQuery.of(context).size.width * 0.43,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              const SizedBox(
+                width: 10,
+              ),
               Image.asset(
                 widget.image,
                 width: 40,
                 height: 40,
                 color: widget.color,
               ),
-              Column(
-                children: [
-                  Text(
-                    widget.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    '$setValue PSI', // Display the set value
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 12, color: Colors.black),
-                  ),
-                ],
+                    Text(
+                      '$setValue PSI', // Display the set value
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 15, color: Colors.black),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -101,20 +102,16 @@ class _InfoCard3State extends State<InfoCard3> {
     });
   }
 
-  // Dialog to display and edit values
   void _showDialog(
       BuildContext context, String title, MqttController controller) {
-    // Retrieve initial values
     final highValue = controller.psig2setlow.value;
     final lowValue = controller.psig2sethigh.value;
     final setValue = controller.psig2.value;
 
-    // Text controllers for editing
     final highController = TextEditingController(text: highValue.toString());
     final lowController = TextEditingController(text: lowValue.toString());
     final setController = TextEditingController(text: setValue.toString());
 
-    // Track edit mode state
     bool isEditable = false;
 
     showDialog(

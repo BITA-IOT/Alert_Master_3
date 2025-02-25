@@ -54,7 +54,7 @@ class MqttController extends GetxController {
 
   var correctPassword = "1234567".obs;
   var isPasswordCorrect = false.obs;
-  var currentCardIndex = 0.obs; // Observable variable for card visibility
+  var currentCardIndex = 0.obs;
   var isOilTemperatureOn = false.obs;
   MqttServerClient? client;
 

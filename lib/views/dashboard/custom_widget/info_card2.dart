@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,8 +25,6 @@ class InfoCard2 extends StatelessWidget {
       double? low = double.tryParse(lowValue.toString());
 
       if (set != null && low != null) {
-        log(set.toString());
-        log(low.toString());
         if (set <= low) {
           borderColor = Colors.red;
         } else if (set <= low + 10) {
@@ -44,7 +41,8 @@ class InfoCard2 extends StatelessWidget {
           _showDialog(context, title, controller);
         },
         child: Container(
-          padding: const EdgeInsets.all(22),
+          height: Get.height * 0.13,
+          width: Get.width * 0.43,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -53,33 +51,39 @@ class InfoCard2 extends StatelessWidget {
               width: 4,
             ),
           ),
-          width: MediaQuery.of(context).size.width * 0.43,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              const SizedBox(
+                width: 10,
+              ),
               Image.asset(
                 image,
                 width: 40,
                 height: 40,
                 color: color,
               ),
-              Column(
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    '$setValue PSI',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 12, color: Colors.black),
-                  ),
-                ],
+                    Text(
+                      '$setValue PSI',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 15, color: Colors.black),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

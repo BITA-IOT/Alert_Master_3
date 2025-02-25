@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/views/dashboard/custom_widget/info_card2.dart';
 import 'package:app/views/dashboard/custom_widget/info_card3.dart';
@@ -9,17 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Dashboard extends StatefulWidget {
-  Dashboard({super.key});
+  const Dashboard({super.key});
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  final MqttController _mqttController = Get.put(MqttController());
   @override
   Widget build(BuildContext context) {
-    final MqttController _mqttController = Get.put(MqttController());
-
     TextEditingController passwordController = TextEditingController();
 
     return Obx(() {
@@ -51,10 +52,10 @@ class _DashboardState extends State<Dashboard> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
-                      Center(
+                      const Center(
                         child: Text(
                           "ALERT MASTER 3",
                           style: TextStyle(
@@ -63,7 +64,7 @@ class _DashboardState extends State<Dashboard> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Center(
@@ -78,7 +79,7 @@ class _DashboardState extends State<Dashboard> {
                               child: RichText(
                                 text: TextSpan(
                                   text: 'COMPRESSOR STATUS: ',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black
@@ -207,11 +208,11 @@ class _DashboardState extends State<Dashboard> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: Text('Enter Password'),
+                                      title: const Text('Enter Password'),
                                       content: TextField(
                                         controller: passwordController,
                                         obscureText: true,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                             hintText: "Password"),
                                       ),
                                       actions: [
@@ -219,7 +220,7 @@ class _DashboardState extends State<Dashboard> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text('Cancel'),
+                                          child: const Text('Cancel'),
                                         ),
                                         TextButton(
                                           onPressed: () {
@@ -231,13 +232,13 @@ class _DashboardState extends State<Dashboard> {
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                     content: Text(
                                                         'Invalid password')),
                                               );
                                             }
                                           },
-                                          child: Text('OK'),
+                                          child: const Text('OK'),
                                         ),
                                       ],
                                     );
@@ -250,11 +251,17 @@ class _DashboardState extends State<Dashboard> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 if (_mqttController.currentCardIndex.value == 1)
-                                  OilPressure(
-                                    // context: context,
-                                    image: 'assets/images/pressure icon.png',
-                                    color: Colors.green,
-                                    title: 'O.P.',
+                                  GestureDetector(
+                                    onLongPress: () {
+                                      _mqttController.currentCardIndex.value =
+                                          0;
+                                    },
+                                    child: OilPressure(
+                                      // context: context,
+                                      image: 'assets/images/pressure icon.png',
+                                      color: Colors.green,
+                                      title: 'O.P.',
+                                    ),
                                   ),
 
                                 // Show second card if currentCardIndex is 2
@@ -267,7 +274,7 @@ class _DashboardState extends State<Dashboard> {
                           }),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                     ],
