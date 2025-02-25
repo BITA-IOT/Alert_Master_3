@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:app/controller/mqtt_controller/mqtt_controller.dart';
 import 'package:app/views/dashboard/custom_widget/info_card2.dart';
 import 'package:app/views/dashboard/custom_widget/info_card3.dart';
 import 'package:app/views/dashboard/custom_widget/oil_pressure.dart';
-import 'package:app/widgets/amphere_cards.dart';
+import 'package:app/views/dashboard/custom_widget/amphere_cards.dart';
 import 'package:app/views/dashboard/custom_widget/info_card.dart';
-import 'package:app/widgets/pressure_cards.dart';
+import 'package:app/views/dashboard/custom_widget/pressure_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

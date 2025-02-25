@@ -3,7 +3,6 @@ import 'package:app/views/button/button.dart';
 import 'package:app/utilz/theme/theme.dart';
 import 'package:app/model/user_device_model.dart';
 import 'package:app/services/firebase_service.dart';
-import 'package:app/services/sharedpreference_service.dart';
 import 'package:app/views/home/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -142,7 +141,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
         await WiFiForIoTPlugin.forceWifiUsage(true);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content:
                 Text('There was an error scanning the code please try again'),
             duration: Duration(seconds: 4),
@@ -169,7 +168,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.green),
                     ),
                     labelText: 'Connection Name',
@@ -180,7 +179,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                 TextField(
                   controller: passwordController,
                   decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.green),
                     ),
                     labelText: 'Password',
@@ -229,7 +228,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                     TextField(
                       controller: nameController,
                       decoration: InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.green),
                         ),
                         labelText: 'Device Name',
@@ -293,10 +292,10 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                     ),
                   ),
                   child: isDialogLoading
-                      ? CircularProgressIndicator(
+                      ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
-                      : Text(
+                      : const Text(
                           "Send",
                           style: TextStyle(
                             color: Colors.white,

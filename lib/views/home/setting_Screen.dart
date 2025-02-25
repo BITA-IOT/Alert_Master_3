@@ -4,8 +4,6 @@ import 'package:app/controller/controler.dart';
 import 'package:app/services/sharedpreference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({super.key});
@@ -15,9 +13,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  double _sliderValue1 = 0.5;
-  double _sliderValue2 = 0.5;
-
   final AuthController _authController = Get.put(AuthController());
   final Controller controller = Get.find<Controller>();
 

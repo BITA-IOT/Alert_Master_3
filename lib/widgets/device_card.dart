@@ -44,19 +44,20 @@ class _DeviceCardState extends State<DeviceCard> {
             children: [
               Text(
                 widget.title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Row(
                 children: [
                   Container(
                     width: 50,
                     height: 50,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       color: Colors.green,
                     ),
                     child: IconButton(
-                      icon: Center(
+                      icon: const Center(
                         child: Icon(
                           Icons.settings,
                           size: 25,
@@ -66,18 +67,18 @@ class _DeviceCardState extends State<DeviceCard> {
                       onPressed: widget.onSetting,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Container(
                     width: 50,
                     height: 50,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       color: Colors.green,
                     ),
                     child: IconButton(
-                      icon: Center(
+                      icon: const Center(
                         child: Icon(
                           Icons.delete_forever,
                           size: 25,
@@ -101,12 +102,12 @@ class _DeviceCardState extends State<DeviceCard> {
           ),
         ),
         AnimatedContainer(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           height: isSheetOpen ? 120 : 0,
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: ThemeColor().dialogBox,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(10),
               bottomRight: Radius.circular(10),
             ),
@@ -116,13 +117,13 @@ class _DeviceCardState extends State<DeviceCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('MAC: ${widget.macAddress}',
-                    style: TextStyle(fontSize: 15)),
-                SizedBox(height: 5),
+                    style: const TextStyle(fontSize: 15)),
+                const SizedBox(height: 5),
                 Text('Device ID: ${widget.deviceId}',
-                    style: TextStyle(fontSize: 15)),
-                SizedBox(height: 5),
+                    style: const TextStyle(fontSize: 15)),
+                const SizedBox(height: 5),
                 Text('IP Address: ${widget.ipAddress}',
-                    style: TextStyle(fontSize: 15)),
+                    style: const TextStyle(fontSize: 15)),
               ],
             ),
           ),

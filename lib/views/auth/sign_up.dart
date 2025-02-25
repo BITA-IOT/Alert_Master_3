@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,8 @@ class _NextScreenState extends State<SingUp> {
   // Function to create account and handle user registration
   Future<void> _createAccount() async {
     // Check if passwords match
-    if (_passwordController.text.trim() != _confirmPasswordController.text.trim()) {
+    if (_passwordController.text.trim() !=
+        _confirmPasswordController.text.trim()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Passwords do not match!')),
       );
@@ -31,7 +31,7 @@ class _NextScreenState extends State<SingUp> {
 
     try {
       // Create a new user with email and password
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
@@ -69,7 +69,8 @@ class _NextScreenState extends State<SingUp> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoginScreen(), // Navigate to Login Screen
+                    builder: (context) =>
+                        const LoginScreen(), // Navigate to Login Screen
                   ),
                 );
               },
@@ -92,9 +93,7 @@ class _NextScreenState extends State<SingUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-      
-      Container(
+      body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.green, Colors.green],
@@ -175,7 +174,8 @@ class _NextScreenState extends State<SingUp> {
 
                                 // Email Field
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
                                   child: SizedBox(
                                     width: 250,
                                     height: 50,
@@ -183,9 +183,11 @@ class _NextScreenState extends State<SingUp> {
                                       controller: _emailController,
                                       decoration: InputDecoration(
                                         hintText: 'abc@gmail.com',
-                                        prefixIcon: const Icon(Icons.email, color: Colors.grey),
+                                        prefixIcon: const Icon(Icons.email,
+                                            color: Colors.grey),
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                       ),
                                     ),
@@ -205,18 +207,22 @@ class _NextScreenState extends State<SingUp> {
                                 obscureText: !_isPasswordVisible,
                                 decoration: InputDecoration(
                                   hintText: 'Password',
-                                  prefixIcon: const Icon(Icons.lock, color: Colors.grey),
+                                  prefixIcon: const Icon(Icons.lock,
+                                      color: Colors.grey),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                      _isPasswordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
                                       color: Colors.grey,
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _isPasswordVisible = !_isPasswordVisible;
+                                        _isPasswordVisible =
+                                            !_isPasswordVisible;
                                       });
                                     },
                                   ),
@@ -234,7 +240,8 @@ class _NextScreenState extends State<SingUp> {
                                 obscureText: !_isConfirmPasswordVisible,
                                 decoration: InputDecoration(
                                   hintText: 'Confirm Password',
-                                  prefixIcon: const Icon(Icons.lock, color: Colors.grey),
+                                  prefixIcon: const Icon(Icons.lock,
+                                      color: Colors.grey),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -247,7 +254,8 @@ class _NextScreenState extends State<SingUp> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                                        _isConfirmPasswordVisible =
+                                            !_isConfirmPasswordVisible;
                                       });
                                     },
                                   ),
@@ -269,10 +277,12 @@ class _NextScreenState extends State<SingUp> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: TextButton(
-                                onPressed: _createAccount, // Call create account function
+                                onPressed:
+                                    _createAccount, // Call create account function
                                 child: const Text(
                                   'Create Account',
-                                  style: TextStyle(color: Colors.white, fontSize: 16),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
                                 ),
                               ),
                             ),
@@ -319,8 +329,6 @@ class _NextScreenState extends State<SingUp> {
           ],
         ),
       ),
-   
-   
     );
   }
 }
