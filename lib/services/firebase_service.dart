@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:app/model/user_device_model.dart';
 import 'package:app/utilz/App_dialog.dart';
@@ -94,7 +93,7 @@ class FirebaseService {
     }
 
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );

@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'package:app/services/sharedpreference_service.dart';
 import 'package:get/get.dart';
-
 
 class Controller extends GetxController {
   RxDouble dashboardOpacity = 0.5.obs;
