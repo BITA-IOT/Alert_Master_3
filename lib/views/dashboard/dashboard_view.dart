@@ -80,19 +80,17 @@ class _DashboardState extends State<Dashboard> {
                                   style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black
-                                      // Hardcoded text always black
-                                      ),
+                                      color: Colors.black),
                                   children: [
                                     TextSpan(
                                       text:
-                                          _mqttController.comp1status.value == 1
+                                          _mqttController.comp1status.value == 0
                                               ? 'ON'
                                               : 'OFF',
                                       style: TextStyle(
                                         color:
                                             _mqttController.comp1status.value ==
-                                                    1
+                                                    0
                                                 ? Colors.green
                                                 : Colors.redAccent,
                                       ),
